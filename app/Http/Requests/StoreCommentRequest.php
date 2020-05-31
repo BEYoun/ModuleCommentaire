@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Comment;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class StoreCommentRequest extends FormRequest
 {
@@ -31,9 +33,21 @@ class StoreCommentRequest extends FormRequest
      */
     public function rules()
     {
+
+        // FacadesValidator::extends('canReply', function ($attribute, $value, $parameter) {
+        //     if (!$value) {
+        //         return true;
+        //     }
+        //     $comment = Comment::find($value);
+        //     if ($comment) {
+        //         return $comment->reply == 0;
+        //     }
+        //     return false;
+        // });
         return [
             'username' => 'required|max:255',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            // 'reply' => 'canReply'
         ];
     }
 }
