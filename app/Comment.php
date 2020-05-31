@@ -7,7 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     //
-    public $guarded = [];
+    protected $guarded = [];
+    protected static $commentable_for = ['Post', 'Tutoriel'];
+    protected $hidden  = ['email', 'ip'];
+    protected $appends = ['email_md5', 'ip_md5'];
+
+
+    public function getEmailMd5Attribute()
+    {
+        return md5($this->attributes['email']);
+    }
+    public function getIpMd5Attribute()
+    {
+        return md5($this->attributes['ip']);
+    }
 
     public static function allFor($model, $model_id)
     {
@@ -24,5 +37,15 @@ class Comment extends Model
             }
         }
         return array_reverse($comments);
+    }
+
+    public static function isCommentable($model, $model_id)
+    {
+        if (!in_array($model, self::$commentable_for)) {
+            return false;
+        } else {
+            $model = "\\App\\$model";
+            return $model::where(['id' => $model_id])->exists();
+        }
     }
 }
