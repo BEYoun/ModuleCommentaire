@@ -53,6 +53,11 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+        'testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefixe' => ''
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

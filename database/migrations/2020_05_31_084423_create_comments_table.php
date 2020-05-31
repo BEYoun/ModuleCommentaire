@@ -19,7 +19,7 @@ class CreateCommentsTable extends Migration
             $table->string('email');
             $table->longText('content');
             $table->integer('commentable_id');
-            $table->string('commentable_post');
+            $table->string('commentable_type');
             $table->integer('reply')->default(0);
             $table->string('ip');
             $table->timestamps();
