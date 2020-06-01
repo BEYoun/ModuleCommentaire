@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Http\Requests\StoreCommentRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Response;
 
 class CommentsController extends Controller
@@ -25,8 +23,8 @@ class CommentsController extends Controller
         if (Comment::isCommentable($model, $model_id)) {
 
             $comment = Comment::create([
-                'commentable_id' => Input::get('commentable_id'),
-                'commentable_type' => Input::get('commentable_type'),
+                'commentable_id' => $model_id,
+                'commentable_type' => $model,
                 'content' => Input::get('content'),
                 'email' => Input::get('email'),
                 'username' => Input::get('username'),
@@ -38,5 +36,18 @@ class CommentsController extends Controller
             return Response::json("ce contenu est non commentable", 422);
         }
         //dd(Input::get());
+    }
+
+    public function destroy($id)
+    {
+        $comment = Comment::find($id);
+        if ($comment->ip == \Illuminate\Support\Facades\Request::ip()) {
+            Comment::where('reply', '=', $comment->id)->delete();
+            $comment->delete();
+            // dd(Comment::find($id));
+            return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
+        } else {
+            return Response::json('ce comment ne vous appartient pas', 403);
+        }
     }
 }
