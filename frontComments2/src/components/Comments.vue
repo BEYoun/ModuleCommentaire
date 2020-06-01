@@ -1,6 +1,6 @@
 <template>
   <div class="ui comments">
-    {{ comments  }}
+    {{ comments }}
   </div>
 </template>
 <script type="text/babel">
@@ -17,10 +17,12 @@ export default {
     csrf: String,
     ip: String
   },
-  ready: function () {
-    axios.get('/comments', {params: {id: this.id, type: this.model}}).then((response) => {
-      this.comments = response.data
-    })
+  created: function () {
+    axios
+      .get('/comments', { params: { id: this.id, type: this.model } })
+      .then(response => {
+        this.comments = response.data
+      })
   }
 }
 </script>
