@@ -8,6 +8,8 @@
 import axios from 'axios'
 import Comment from './comments/comment.vue'
 import CommentForm from './comments/Form.vue'
+import store from '../store/store'
+global.store = store
 export default {
   data () {
     return {
