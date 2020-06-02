@@ -14,13 +14,16 @@
         </div>
       </div>
       <div class="comments">
-        <comment :comment="reply" v-for="reply in comment.replies" :key="reply.id " :ip="ip"></comment>
+        <comment :comment="reply" v-for="reply in comment.replies" :key="reply.id" :ip="ip"></comment>
+        <comment-form :id="comment.commentable_id" :model="comment.commentable_type" :reply="comment.id" v-if="comment.reply == 0"></comment-form>
       </div>
     </div>
 </template>
 <script type="text/babel">
+import CommentForm from './Form.vue'
 export default {
   name: 'comment',
+  components: { CommentForm },
   props: {
     ip: String,
     comment: Object
