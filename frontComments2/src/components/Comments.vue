@@ -6,7 +6,7 @@
 </template>
 <script type="text/babel">
 import axios from 'axios'
-import Comment from './comments/comment.vue'
+import Comment from './comments/Comment.vue'
 import CommentForm from './comments/Form.vue'
 import store from '../store/store'
 global.store = store
