@@ -8,13 +8,18 @@
 import axios from 'axios'
 import Comment from './comments/Comment.vue'
 import CommentForm from './comments/Form.vue'
-import store from '../store/store'
-global.store = store
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  data () {
-    return {
-      comments: []
-    }
+
+  methods: {
+    ...mapActions('commentaire', [
+      'add_comments'
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'comments'
+    ])
   },
   components: { Comment, CommentForm },
   props: {
@@ -27,7 +32,7 @@ export default {
     axios
       .get('/comments', { params: { id: this.id, type: this.model } })
       .then(response => {
-        this.comments = response.data
+        this.$store.dispatch('add_comments', response.data)
       })
   }
 }
